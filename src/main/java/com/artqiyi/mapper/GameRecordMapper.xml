@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.artqiyi.mapper.GameRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.artqiyi.entity.GameRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="game_id" property="gameId" jdbcType="BIGINT" />
+    <result column="game_key" property="gameKey" jdbcType="VARCHAR" />
+    <result column="game_no" property="gameNo" jdbcType="VARCHAR" />
+    <result column="game_filed_name" property="gameFiledName" jdbcType="VARCHAR" />
+    <result column="total_round" property="totalRound" jdbcType="INTEGER" />
+    <result column="contest_num" property="contestNum" jdbcType="INTEGER" />
+    <result column="pass_through_num" property="passThroughNum" jdbcType="INTEGER" />
+    <result column="per_award" property="perAward" jdbcType="INTEGER" />
+    <result column="game_status" property="gameStatus" jdbcType="SMALLINT" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, game_id, game_key, game_no, game_filed_name, total_round, contest_num, pass_through_num, 
+    per_award, game_status, start_time, end_time, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.artqiyi.entity.GameRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from game_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.artqiyi.entity.GameRecordExample" >
+    delete from game_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.artqiyi.entity.GameRecord" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into game_record (game_id, game_key, game_no, 
+      game_filed_name, total_round, contest_num, 
+      pass_through_num, per_award, game_status, 
+      start_time, end_time, create_time, 
+      update_time)
+    values (#{gameId,jdbcType=BIGINT}, #{gameKey,jdbcType=VARCHAR}, #{gameNo,jdbcType=VARCHAR}, 
+      #{gameFiledName,jdbcType=VARCHAR}, #{totalRound,jdbcType=INTEGER}, #{contestNum,jdbcType=INTEGER}, 
+      #{passThroughNum,jdbcType=INTEGER}, #{perAward,jdbcType=INTEGER}, #{gameStatus,jdbcType=SMALLINT}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.artqiyi.entity.GameRecord" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into game_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="gameKey != null" >
+        game_key,
+      </if>
+      <if test="gameNo != null" >
+        game_no,
+      </if>
+      <if test="gameFiledName != null" >
+        game_filed_name,
+      </if>
+      <if test="totalRound != null" >
+        total_round,
+      </if>
+      <if test="contestNum != null" >
+        contest_num,
+      </if>
+      <if test="passThroughNum != null" >
+        pass_through_num,
+      </if>
+      <if test="perAward != null" >
+        per_award,
+      </if>
+      <if test="gameStatus != null" >
+        game_status,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gameId != null" >
+        #{gameId,jdbcType=BIGINT},
+      </if>
+      <if test="gameKey != null" >
+        #{gameKey,jdbcType=VARCHAR},
+      </if>
+      <if test="gameNo != null" >
+        #{gameNo,jdbcType=VARCHAR},
+      </if>
+      <if test="gameFiledName != null" >
+        #{gameFiledName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalRound != null" >
+        #{totalRound,jdbcType=INTEGER},
+      </if>
+      <if test="contestNum != null" >
+        #{contestNum,jdbcType=INTEGER},
+      </if>
+      <if test="passThroughNum != null" >
+        #{passThroughNum,jdbcType=INTEGER},
+      </if>
+      <if test="perAward != null" >
+        #{perAward,jdbcType=INTEGER},
+      </if>
+      <if test="gameStatus != null" >
+        #{gameStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.artqiyi.entity.GameRecordExample" resultType="java.lang.Integer" >
+    select count(*) from game_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update game_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameId != null" >
+        game_id = #{record.gameId,jdbcType=BIGINT},
+      </if>
+      <if test="record.gameKey != null" >
+        game_key = #{record.gameKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameNo != null" >
+        game_no = #{record.gameNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameFiledName != null" >
+        game_filed_name = #{record.gameFiledName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalRound != null" >
+        total_round = #{record.totalRound,jdbcType=INTEGER},
+      </if>
+      <if test="record.contestNum != null" >
+        contest_num = #{record.contestNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.passThroughNum != null" >
+        pass_through_num = #{record.passThroughNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.perAward != null" >
+        per_award = #{record.perAward,jdbcType=INTEGER},
+      </if>
+      <if test="record.gameStatus != null" >
+        game_status = #{record.gameStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update game_record
+    set id = #{record.id,jdbcType=VARCHAR},
+      game_id = #{record.gameId,jdbcType=BIGINT},
+      game_key = #{record.gameKey,jdbcType=VARCHAR},
+      game_no = #{record.gameNo,jdbcType=VARCHAR},
+      game_filed_name = #{record.gameFiledName,jdbcType=VARCHAR},
+      total_round = #{record.totalRound,jdbcType=INTEGER},
+      contest_num = #{record.contestNum,jdbcType=INTEGER},
+      pass_through_num = #{record.passThroughNum,jdbcType=INTEGER},
+      per_award = #{record.perAward,jdbcType=INTEGER},
+      game_status = #{record.gameStatus,jdbcType=SMALLINT},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.artqiyi.entity.GameRecord" >
+    update game_record
+    <set >
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=BIGINT},
+      </if>
+      <if test="gameKey != null" >
+        game_key = #{gameKey,jdbcType=VARCHAR},
+      </if>
+      <if test="gameNo != null" >
+        game_no = #{gameNo,jdbcType=VARCHAR},
+      </if>
+      <if test="gameFiledName != null" >
+        game_filed_name = #{gameFiledName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalRound != null" >
+        total_round = #{totalRound,jdbcType=INTEGER},
+      </if>
+      <if test="contestNum != null" >
+        contest_num = #{contestNum,jdbcType=INTEGER},
+      </if>
+      <if test="passThroughNum != null" >
+        pass_through_num = #{passThroughNum,jdbcType=INTEGER},
+      </if>
+      <if test="perAward != null" >
+        per_award = #{perAward,jdbcType=INTEGER},
+      </if>
+      <if test="gameStatus != null" >
+        game_status = #{gameStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.artqiyi.entity.GameRecord" >
+    update game_record
+    set game_id = #{gameId,jdbcType=BIGINT},
+      game_key = #{gameKey,jdbcType=VARCHAR},
+      game_no = #{gameNo,jdbcType=VARCHAR},
+      game_filed_name = #{gameFiledName,jdbcType=VARCHAR},
+      total_round = #{totalRound,jdbcType=INTEGER},
+      contest_num = #{contestNum,jdbcType=INTEGER},
+      pass_through_num = #{passThroughNum,jdbcType=INTEGER},
+      per_award = #{perAward,jdbcType=INTEGER},
+      game_status = #{gameStatus,jdbcType=SMALLINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

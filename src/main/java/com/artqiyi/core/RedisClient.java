@@ -35,7 +35,6 @@ public class RedisClient {
      * @return
      */
     public <T> T get(final String key, Class<T> targetClass) {
-    	System.out.println(redisTemplate.getConnectionFactory().getConnection().getNativeConnection().getClass());
         byte[] result = redisTemplate.execute((RedisCallback<byte[]>) connection -> connection.get(key.getBytes()));
         if (result == null) {
             return null;
@@ -60,6 +59,16 @@ public class RedisClient {
         });
     }
 
+    /**
+     * exists
+     * @param key
+     * @return
+     */
+    public Boolean exists(String key){
+        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+            return connection.exists(key.getBytes());
+        });
+    }
 
     /**
      * del
@@ -212,7 +221,17 @@ public class RedisClient {
         });
     }
 
-
+    /**
+     * hExists
+     *
+     * @param key
+     * @param field
+     */
+    public Boolean hExists(String key, String field) {
+       return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+            return connection.hExists(key.getBytes(), field.getBytes());
+        });
+    }
     /**
      * put hash cache
      *

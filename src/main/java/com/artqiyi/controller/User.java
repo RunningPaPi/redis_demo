@@ -4,17 +4,17 @@ import lombok.Data;
 
 @Data
 public class User {
-	private String userid;
+	private String userId;
 	private String userName;
-	private String userNickName;
+	private String nickName;
 	private String passwd;
 	private String headPicUrl;
 	
-	public User(String userid, String userName, String userNickName, String passwd, String headPicUrl) {
+	public User(String userId, String userName, String nickName, String passwd, String headPicUrl) {
 		super();
-		this.userid = userid;
+		this.userId = userId;
 		this.userName = userName;
-		this.userNickName = userNickName;
+		this.nickName = nickName;
 		this.passwd = passwd;
 		this.headPicUrl = headPicUrl;
 	}

@@ -53,8 +53,8 @@ public class ProtoStuffUtil {
             log.error("【序列化】 序列化失败，传入对象为空");
             throw new RuntimeException("序列化失败");
         }
-
-        Schema<T> schema = (Schema<T>) getSchema(obj.getClass());
+        @SuppressWarnings("unchecked")
+		Schema<T> schema = (Schema<T>) getSchema(obj.getClass());
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         byte[] protoStuff;
         try {

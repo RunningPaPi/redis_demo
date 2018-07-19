@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.artqiyi.mapper.GameMapper" >
+  <resultMap id="BaseResultMap" type="com.artqiyi.entity.Game" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="game_key" property="gameKey" jdbcType="VARCHAR" />
+    <result column="game_name" property="gameName" jdbcType="VARCHAR" />
+    <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+    <result column="bg_img" property="bgImg" jdbcType="VARCHAR" />
+    <result column="icon_url_x" property="iconUrlX" jdbcType="VARCHAR" />
+    <result column="bg_img_x" property="bgImgX" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="SMALLINT" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="updator_id" property="updatorId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, game_key, game_name, icon_url, bg_img, icon_url_x, bg_img_x, sort, status, deleted, 
+    remark, create_id, updator_id, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.artqiyi.entity.GameExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from game
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from game
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.artqiyi.entity.GameExample" >
+    delete from game
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.artqiyi.entity.Game" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into game (game_key, game_name, icon_url, 
+      bg_img, icon_url_x, bg_img_x, 
+      sort, status, deleted, 
+      remark, create_id, updator_id, 
+      create_time, update_time)
+    values (#{gameKey,jdbcType=VARCHAR}, #{gameName,jdbcType=VARCHAR}, #{iconUrl,jdbcType=VARCHAR}, 
+      #{bgImg,jdbcType=VARCHAR}, #{iconUrlX,jdbcType=VARCHAR}, #{bgImgX,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT}, #{deleted,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{createId,jdbcType=BIGINT}, #{updatorId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.artqiyi.entity.Game" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into game
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gameKey != null" >
+        game_key,
+      </if>
+      <if test="gameName != null" >
+        game_name,
+      </if>
+      <if test="iconUrl != null" >
+        icon_url,
+      </if>
+      <if test="bgImg != null" >
+        bg_img,
+      </if>
+      <if test="iconUrlX != null" >
+        icon_url_x,
+      </if>
+      <if test="bgImgX != null" >
+        bg_img_x,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updatorId != null" >
+        updator_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gameKey != null" >
+        #{gameKey,jdbcType=VARCHAR},
+      </if>
+      <if test="gameName != null" >
+        #{gameName,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bgImg != null" >
+        #{bgImg,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrlX != null" >
+        #{iconUrlX,jdbcType=VARCHAR},
+      </if>
+      <if test="bgImgX != null" >
+        #{bgImgX,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updatorId != null" >
+        #{updatorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.artqiyi.entity.GameExample" resultType="java.lang.Integer" >
+    select count(*) from game
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update game
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameKey != null" >
+        game_key = #{record.gameKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameName != null" >
+        game_name = #{record.gameName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconUrl != null" >
+        icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bgImg != null" >
+        bg_img = #{record.bgImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconUrlX != null" >
+        icon_url_x = #{record.iconUrlX,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bgImgX != null" >
+        bg_img_x = #{record.bgImgX,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=SMALLINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.deleted != null" >
+        deleted = #{record.deleted,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createId != null" >
+        create_id = #{record.createId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatorId != null" >
+        updator_id = #{record.updatorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update game
+    set id = #{record.id,jdbcType=VARCHAR},
+      game_key = #{record.gameKey,jdbcType=VARCHAR},
+      game_name = #{record.gameName,jdbcType=VARCHAR},
+      icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      bg_img = #{record.bgImg,jdbcType=VARCHAR},
+      icon_url_x = #{record.iconUrlX,jdbcType=VARCHAR},
+      bg_img_x = #{record.bgImgX,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=SMALLINT},
+      status = #{record.status,jdbcType=SMALLINT},
+      deleted = #{record.deleted,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_id = #{record.createId,jdbcType=BIGINT},
+      updator_id = #{record.updatorId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.artqiyi.entity.Game" >
+    update game
+    <set >
+      <if test="gameKey != null" >
+        game_key = #{gameKey,jdbcType=VARCHAR},
+      </if>
+      <if test="gameName != null" >
+        game_name = #{gameName,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bgImg != null" >
+        bg_img = #{bgImg,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrlX != null" >
+        icon_url_x = #{iconUrlX,jdbcType=VARCHAR},
+      </if>
+      <if test="bgImgX != null" >
+        bg_img_x = #{bgImgX,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updatorId != null" >
+        updator_id = #{updatorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.artqiyi.entity.Game" >
+    update game
+    set game_key = #{gameKey,jdbcType=VARCHAR},
+      game_name = #{gameName,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      bg_img = #{bgImg,jdbcType=VARCHAR},
+      icon_url_x = #{iconUrlX,jdbcType=VARCHAR},
+      bg_img_x = #{bgImgX,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=SMALLINT},
+      status = #{status,jdbcType=SMALLINT},
+      deleted = #{deleted,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=BIGINT},
+      updator_id = #{updatorId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import redis.clients.jedis.Jedis;
 
-@Service
+//@Service
 public class RedisLock {
     private Logger log = LoggerFactory.getLogger(RedisLock.class);
 
